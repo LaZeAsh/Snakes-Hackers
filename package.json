@@ -1,18 +1,32 @@
 {
-  "name": "snakeshacks",
+  "name": "node-js-template",
   "version": "1.0.0",
-  "description": "",
+  "description": "joma's template",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "socket.io": "^4.5.1",
-    "socket.io-client": "^4.5.1"
-  }
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "request": "^2.85.0",
+    "tape": "^4.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jomaoppa/node-js-template.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Joma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jomaoppa/node-js-template/issues"
+  },
+  "homepage": "https://github.com/jomaoppa/node-js-template#readme"
 }
