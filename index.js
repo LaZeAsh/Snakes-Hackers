@@ -14,8 +14,10 @@ const io=socket(server);
 
 //ALL player info
 let players={};
+users = [];
 //GAME VARIABLES
 let choice1="",choice2="";
+
 
 io.on("connection",(socket)=>{
     console.log("connection established");
@@ -28,12 +30,23 @@ io.on("connection",(socket)=>{
         socket.emit("newGame",{roomID:roomID});
     })
 
+    socket.on('setUsername', function(data){
+        
+           users.push(data);
+           socket.emit('userSet', {username: data});
+        
+     })
+
     //Join Game Listener
     socket.on("joinGame",(data)=>{        
         socket.join(data.roomID);
         socket.to(data.roomID).emit("player2Joined",{p2name: data.name,p1name:players[data.roomID]});
         socket.emit("player1Joined",{p2name:players[data.roomID],p1name:data.name});
     })
+    socket.on('msg', function(data){
+        //Send message to everyone
+        io.sockets.emit('newmsg', data);
+     })
 
     //Listener to Player 1's Choice
     socket.on("choice1", (data)=> {

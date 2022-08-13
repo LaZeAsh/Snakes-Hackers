@@ -73,4 +73,5 @@ const transition=(data)=>{
     $(".player1 .name").html(data.p1name);
     $(".player2 .name").html(data.p2name);
     $("#message").html(data.p2name+" is here!").show();
+    $(".text-here").show()
 }
