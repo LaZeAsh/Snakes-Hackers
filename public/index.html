@@ -65,39 +65,79 @@
             </div>
         </div>
     </div>
-    <div class="chat-feature">
+    <div>
+        <h1>SPS shootz</h1>
+        <div id="message-container"></div>
+        <form id="send-container">
+          <input type="text" id="message-input">
+          <button type="submit" id="send-button">Send</button>
+        </form>
+    </div>
+    <!-- <div class="chat-feature">
         <div id="error-container"></div>
           <input id="name" type="text" name="name" value="" placeholder="Enter your name!">
           <button type="button" name="button" onclick="setUsername()">Let me chat!</button>
-    </div>
+    </div> -->
     
     <script src="./js/game.js"></script>    
 </body>
 <script>
-    function setUsername(){
-         socket.emit('setUsername', document.getElementById('name').value);
-      };
-      var user;
-      socket.on('userExists', function(data){
-         document.getElementById('error-container').innerHTML = data;
-      });
-      socket.on('userSet', function(data){
-         user = data.username;
-         document.body.innerHTML = '<div class="text-here"><input type="text" id="message">\
-         <button type="button" name="button" onclick="sendMessage()">Send</button>\
-         <div id="message-container"></div></div>';
-      });
-      function sendMessage(){
-         var msg = document.getElementById('message').value;
-         if(msg){
-            socket.emit('msg', {message: msg, user: user});
-         }
-      }
-      socket.on('newmsg', function(data){
-         if(user){
-            document.getElementById('message-container').innerHTML +='<div><b>' + data.user + '</b>: ' + data.message + '</div>'
-         }
-      })
+    // function setUsername(){
+    //      socket.emit('setUsername', document.getElementById('name').value);
+    //   };
+    //   var user;
+    //   socket.on('userExists', function(data){
+    //      document.getElementById('error-container').innerHTML = data;
+    //   });
+    //   socket.on('userSet', function(data){
+    //      user = data.username;
+    //      document.body.innerHTML = '<div class="text-here"><input type="text" id="message">\
+    //      <button type="button" name="button" onclick="sendMessage()">Send</button>\
+    //      <div id="message-container"></div></div>';
+    //   });
+    //   function sendMessage(){
+    //      var msg = document.getElementById('message').value;
+    //      if(msg){
+    //         socket.emit('msg', {message: msg, user: user});
+    //      }
+    //   }
+    //   socket.on('newmsg', function(data){
+    //      if(user){
+    //         document.getElementById('message-container').innerHTML +='<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+    //      }
+    //   })
+
+    const messageContainer = document.getElementById('message-container')
+const messageForm = document.getElementById('send-container')
+const messageInput = document.getElementById('message-input')
+
+const name = prompt('What is your name?')
+appendMessage('You joined')
+socket.emit('new-user', name)
+
+socket.on('chat-message', data => {
+  appendMessage(`${data.name}: ${data.message}`)
+})
+
+socket.on('user-connected', name => {
+  appendMessage(`${name} connected`)
+})
+socket.on('user-disconnected', name => {
+  appendMessage(`${name} disconnected`)
+})
+messageForm.addEventListener('submit', e => {
+  e.preventDefault()
+  const message = messageInput.value
+  appendMessage(`You: ${message}`)
+  socket.emit('send-chat-message', message)
+  messageInput.value = ''
+})
+function appendMessage(message) {
+  const messageElement = document.createElement('div')
+  messageElement.innerText = message
+  messageContainer.append(messageElement)
+}
+
    </script>
 </script>
 </html>
