@@ -3,7 +3,8 @@ const socket=require('socket.io');
 const randomstring=require('randomstring');
 
 const express=app();
-
+const cohere = require('cohere-ai');
+cohere.init('np9oN2aeMfu3AOpGwG8nT7tJe4gjWeDHhACAxpHf');
 const server=express.listen(4000,()=>{
     console.log("server started at http://localhost:4000");
 })
@@ -71,8 +72,17 @@ io.on('connection', socket => {
       users[socket.id] = name
       socket.broadcast.emit('user-connected', name)
     })
-    socket.on('send-chat-message', message => {
-      socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
+    socket.on('send-chat-message', async(message) => {
+        const response = await cohere.classify({ 
+            model: 'medium', 
+            taskDescription: '', 
+            outputIndicator: '', 
+            inputs: [message], 
+            examples: [{"text": "The order came 5 days early", "label": "positive"}, {"text": "The item exceeded my expectations", "label": "positive"}, {"text": "I ordered more for my friends", "label": "positive"}, {"text": "I would buy this again", "label": "positive"}, {"text": "I would recommend this to others", "label": "positive"}, {"text": "The package was damaged", "label": "negative"}, {"text": "The order is 5 days late", "label": "negative"}, {"text": "The order was incorrect", "label": "negative"}, {"text": "I want to return my item", "label": "negative"}, {"text": "The item\'s material feels low quality", "label": "negative"}, {"text": "Fuck you", "label": "negative"}, {"text": "You are an idiot", "label": "negative"}, {"text": "You are very dumb you don\'t know how to play", "label": "negative"}] 
+        }); 
+        let output = JSON.stringify(response.body.classifications[0].prediction);
+        console.log(output);
+       socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
     })
     socket.on('disconnect', () => {
       socket.broadcast.emit('user-disconnected', users[socket.id])
