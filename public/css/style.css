@@ -1,0 +1,87 @@
+body {
+    background-color: #f5f5dc;
+}
+
+.header {
+    text-align: center;
+    margin: 20px;
+}
+
+.body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* grid-template-columns: 50% 50%; */
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+.createBtn {
+    background-color: #3b5998;
+}
+
+.newRoom {
+    padding: 50px;
+    background-color: rgb(232, 232, 232);
+    border-radius: 20px;
+}
+
+.joinRoom {
+    padding: 40px;
+    /* margin-left: 5%; */
+}
+
+#message {
+    color: #18f918;
+}
+
+.controls {
+    margin-top: 30px;
+    margin-right: 100px;
+}
+
+.stone-btn {
+    background-color: gray;
+    border-radius: 50% 50% 60% 40% / 30% 68% 32% 70% ;
+    padding: 30px;
+}
+
+.paper-btn {
+    border-radius: 94% 6% 60% 40% / 0% 68% 32% 100% ;
+    padding: 30px;
+
+}
+
+.scissor-btn {
+    border-radius: 0% 100% 100% 0% / 0% 51% 49% 100% ;
+    padding: 30px;
+
+}
+
+@media (max-width: 843px) {
+    .body {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.leaderboard {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#send-button {
+    background-color: #3b5998;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.textfeature {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
